@@ -19,21 +19,6 @@ class Lc3Kernel(Kernel):
 
     code_re = re.compile(r'^\.ORIG.*\.END$', re.DOTALL | re.I)
 
-    help_string = """    break <action> [args...] - performs action (see break help for details)
-    help                     - display this message
-    list [N]                 - display the next instruction to be executed with N rows of context
-    load <filename>          - loads an object file
-    mem <start> [<end>]      - display values in memory addresses start to end
-    randomize                - randomize the memory and general purpose registers
-    regs                     - display register values
-    restart                  - restart program (and go to user mode)
-    run [<instructions>]     - runs to end of program or, if specified, the number of instructions
-    set <loc> <value>        - sets loc (either register name or memory address) to value
-    step in                  - executes a single instruction
-    step over                - executes a single instruction (treats subroutine calls as a single
-                               instruction)
-    step out                 - steps out of a subroutine if in one"""
-
     def __init__(self, **kwargs):
         Kernel.__init__(self, **kwargs)
         self.sim_wrapper = replwrap.REPLWrapper("/home/allan/cs061/ucrdrk-lc3tools/build/bin/simulator", 'instructions\r\n> ', '', '\r\n> ')
@@ -51,7 +36,6 @@ class Lc3Kernel(Kernel):
                   response += self.sim_wrapper.run_command('load ' + asm_file.name + ".obj")
             else:
               match code:
-                case 'help': response = Lc3Kernel.help_string
                 case 'quit': response = 'Unable to quit from cell'
                 case _: response = self.sim_wrapper.run_command(code)  
               
