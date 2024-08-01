@@ -1,7 +1,7 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "hostRequirements": {
-    "cpus": 4
+  "name": "lc3_kernel",
+  "build": {
+    "dockerfile": "Dockerfile"
   },
   "waitFor": "onCreateCommand",
   "updateContentCommand": "python3 -m pip install .",
