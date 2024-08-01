@@ -21,7 +21,7 @@ class Lc3Kernel(Kernel):
 
     def __init__(self, **kwargs):
         Kernel.__init__(self, **kwargs)
-        self.sim_wrapper = replwrap.REPLWrapper("/home/allan/cs061/ucrdrk-lc3tools/build/bin/simulator", 'instructions\r\n> ', '', '\r\n> ')
+        self.sim_wrapper = replwrap.REPLWrapper("simulator", 'instructions\r\n> ', '', '\r\n> ')
 
     def do_execute(self, code, silent, store_history=True, user_expressions=None,
                    allow_stdin=False):
@@ -31,7 +31,7 @@ class Lc3Kernel(Kernel):
                 with tempfile.NamedTemporaryFile(delete=False) as asm_file:
                   asm_file.write(code.encode('utf-8'))
                   asm_file.flush()
-                  obj_result = subprocess.check_output(['/home/allan/cs061/ucrdrk-lc3tools/build/bin/assembler', asm_file.name])
+                  obj_result = subprocess.check_output(['assembler', asm_file.name])
                   response = obj_result.decode("utf-8")
                   response += self.sim_wrapper.run_command('load ' + asm_file.name + ".obj")
             else:
