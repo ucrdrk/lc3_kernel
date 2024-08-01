@@ -1,8 +1,8 @@
-FROM mcr.microsoft.com/devcontainers/base:ubuntu
+FROM mcr.microsoft.com/devcontainers/universal:2
 
 RUN apt update && apt install -y cmake git build-essential
 
-RUN python3 -m pip install .
+# RUN python3 -m pip install .
 
 RUN git clone https://github.com/ucrdrk/lc3tools.git /usr/lc3tools
 
