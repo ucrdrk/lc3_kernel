@@ -11,8 +11,8 @@ class Lc3Kernel(Kernel):
     language = 'no-op'
     language_version = '0.1'
     language_info = {
-        'name': 'lc3',
-        'mimetype': 'text/plain',
+        'name': 'assembly',
+        'mimetype': 'text/x-asm',
         'file_extension': '.asm',
     }
     banner = "LC-3 kernel - useful for CS061 at UC Riverside"
