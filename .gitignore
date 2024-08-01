@@ -4,3 +4,4 @@ _ipynp_checkpoints
 data_kernelspec
 *.asm
 *.obj
+private_data
