@@ -1,6 +1,7 @@
 from ipykernel.kernelbase import Kernel
 from pexpect import replwrap, EOF
 
+import os
 import re
 import tempfile
 import subprocess
@@ -17,7 +18,8 @@ class Lc3Kernel(Kernel):
     }
     banner = "LC-3 kernel - useful for CS061 at UC Riverside"
 
-    code_re = re.compile(r'^\.ORIG.*\.END$', re.DOTALL | re.I)
+    code_re = re.compile(r'^(\;.*)*\.ORIG.*\.END$', re.DOTALL | re.I)
+    error_re = re.compile(r'^.*error\:.*$', re.DOTALL | re.I)
 
     def __init__(self, **kwargs):
         Kernel.__init__(self, **kwargs)
@@ -28,12 +30,14 @@ class Lc3Kernel(Kernel):
         if not silent:
             
             if Lc3Kernel.code_re.match(code) != None:
-                with tempfile.NamedTemporaryFile(delete=False) as asm_file:
+                with tempfile.NamedTemporaryFile() as asm_file:
                   asm_file.write(code.encode('utf-8'))
                   asm_file.flush()
                   obj_result = subprocess.check_output(['assembler', asm_file.name])
                   response = obj_result.decode("utf-8")
-                  response += self.sim_wrapper.run_command('load ' + asm_file.name + ".obj")
+                  if Lc3Kernel.error_re.match(response) == None:
+                      response += self.sim_wrapper.run_command('load ' + asm_file.name + ".obj")
+                      os.remove(asm_file.name + ".obj")
             else:
               match code:
                 case 'quit': response = 'Unable to quit from cell'
