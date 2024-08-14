@@ -1,8 +1,6 @@
 {
   "name": "lc3_kernel",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
+  "image": "docker.io/ucrdrk/lc3-kernel:v0.1.0",
   "waitFor": "onCreateCommand",
   "updateContentCommand": "python3 -m pip install .",
   "postCreateCommand": "",
